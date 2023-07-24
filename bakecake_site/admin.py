@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (
-    Level, Form, Topping, Berries, Decor
+    Level, Form, Topping, Berries, Decor, Order
 )
 @admin.register(Level)
 class LevelAdmin(admin.ModelAdmin):
@@ -20,4 +20,8 @@ class BerriesAdmin(admin.ModelAdmin):
 
 @admin.register(Decor)
 class DecorAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
     pass
