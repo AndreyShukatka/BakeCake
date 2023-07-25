@@ -4,10 +4,12 @@ from .forms import UserRegistrationForm
 from django.contrib.auth import authenticate, login
 from .models import User
 from django.shortcuts import render, redirect
-
+from django.contrib.auth.views import LogoutView
+from django.urls import reverse, reverse_lazy
 
 class IndexPage(View):
     template_name = 'index.html'
+
     def get_context_data(self):
         context = {
             'levels': Level.objects.all(),
@@ -44,3 +46,17 @@ class IndexPage(View):
         context = self.get_context_data()
 
         return render(request, self.template_name, context)
+
+
+class UserLogoutView(LogoutView):
+    next_page = reverse_lazy('index')
+
+
+class LkPage(View):
+    template_name = 'lk.html'
+
+    def post(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
