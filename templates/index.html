@@ -14,17 +14,16 @@
             <div class="modal-header border-0 py-0">
               <label for="reg" class="modal-title font_Gogh fs_40 cake_blue" id="RegModalLabel">Вход / Регистрация</label>
             </div>
-            <form class="d-none">
-              <input v-model="EnteredNumber" type="text" name="phone">
-              <input v-model="RegInput" type="text" name="REG">
-
-              <button type="submit" ref="HiddenFormSubmitReg">reg</button>
+            <form class="d-none" method="post">{% csrf_token %}
+              <input v-model="EnteredNumber" type="text" name="email">
+              <input v-model="RegInput" type="text" name="password">
+              <button type="submit" ref="HiddenFormSubmitReg" value="login">reg</button>
             </form>
-            <v-form :validation-schema="RegSchema" method="post" class="modal-body position-relative d-flex flex-column align-items-center px-5 pb-4" @submit="RegSubmit">
-              <v-field v-if="RegInput !== 'Регистрация успешна'" v-model="RegInput" name="reg" type="text" id="reg" :placeholder="Step === `Number` ? `Введите ваш номер` : `Введите код`" class="form-control cake__textinput"></v-field>
+            <v-form :validation-schema="RegSchema" class="modal-body position-relative d-flex flex-column align-items-center px-5 pb-4" @submit="RegSubmit">
+              <v-field v-if="RegInput !== 'Регистрация успешна'" v-model="RegInput" name="reg" type="text" id="reg" :placeholder="Step === `Number` ? `Введите ваш Email` : `Введите код`" class="form-control cake__textinput"></v-field>
               <v-field v-if="Step === 'Number'" v-model="RegInput" type="phone" name="phone_format" class="d-none"></v-field>
               <v-field v-if="Step === 'Code'" v-model="RegInput" type="phone" name="code_format" class="d-none"></v-field>
-              <button v-if="RegInput !== 'Регистрация успешна'" type="submit" class="btn text-white w-100 rounded-pill mt-3 py-2 shadow-none cake__button fs_12 cake__bg_pink">Отправить</button>
+              <button v-if="RegInput !== 'Регистрация успешна'"  type="submit" class="btn text-white w-100 rounded-pill mt-3 py-2 shadow-none cake__button fs_12 cake__bg_pink" value="login">Отправить</button>
               <span v-if="RegInput === 'Регистрация успешна'" class="cake_grey text-center">Регистрация успешна</span>
               <small class="fs_12 cake_pink text-center position-absolute bottom-0"><error-message name="reg">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-exclamation-circle mb-1" viewBox="0 0 16 16">
@@ -32,7 +31,7 @@
                   <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"></path>
                 </svg>
                 {% verbatim %}
-                {{Step === 'Number' ? 'Введите номер' : 'Введите код'}}
+                {{Step === 'Number' ? 'Введите Email' : 'Введите ваш пароль'}}
                 {% endverbatim %}
                 </error-message></small>
               <error-message name="phone_format" class="fs_12 cake_pink text-center position-absolute bottom-0"></error-message>
@@ -128,7 +127,7 @@
           <v-form :validation-schema="schema1" @submit="ToStep4">
             <div class="d-flex justify-content-end align-items-center position-relative">
           <span class="cake_pink position-absolute start-0 top-50">
-            <error-message name="lvls" class="from__alert"></error-message>
+            <error-messageы name="lvls" class="from__alert"></error-messageы>
             <error-message name="form" class="from__alert"></error-message>
             <error-message name="topping" class="from__alert"></error-message>
           </span>
@@ -287,7 +286,7 @@
                     <error-message name="name_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
                   </div>
                   <div class="position-relative pb-1">
-                    <v-field v-model="Phone" :class="Phone ? 'cake__border_blue': ''" type="tel" name="phone" id="phone" placeholder="Введите номер" class="form-control my-3 cake__textinput"></v-field>
+                    <v-field v-model="Phone" :class="Phone ? 'cake__border_blue': ''" type="tel" name="phone" id="phone" placeholder="Введите Email" class="form-control my-3 cake__textinput"></v-field>
                     <v-field v-model="Phone" type="phone" name="phone_format" class="d-none"></v-field>
                     <error-message name="phone_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
                   </div>

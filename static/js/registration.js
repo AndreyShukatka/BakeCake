@@ -14,13 +14,13 @@ Vue.createApp({
                     return 'Поле не заполнено';
                 },
                 phone_format: (value) => {
-                    const regex = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
+                    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
                     if (!value) {
                         return true;
                     }
                     if ( !regex.test(value)) {
 
-                        return '⚠ Формат телефона нарушен';
+                        return '⚠ Формат Email нарушен';
                     }
                     return true;
                 },
@@ -32,9 +32,6 @@ Vue.createApp({
                     if ( !regex.test(value)) {
 
                         return '⚠ Формат кода нарушен';
-                    }
-                    if ( value !== '1234') {
-                        return '⚠ Неверный код';
                     }
                     return true;
                 }
