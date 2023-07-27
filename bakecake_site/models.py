@@ -118,3 +118,13 @@ class Order(models.Model):
         choices=STATUSES,
         default='1',
     )
+
+
+class Ready_cakes(models.Model):
+    title = models.CharField(max_length=200, verbose_name='Название торта')
+    description = models.TextField()
+    price = models.FloatField(default=0, verbose_name='Цена')
+    photo = models.ImageField(verbose_name='Фото')
+    index_page = models.BooleanField(verbose_name='Показывать на главной странице')
+    def __str__(self):
+        return self.title

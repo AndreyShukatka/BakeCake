@@ -1,7 +1,14 @@
 from django.contrib import admin
 from .models import (
-    Level, Form, Topping, Berries, Decor, Order, User
+    Level, Form, Topping, Berries, Decor, Order, User, Ready_cakes
 )
+
+
+@admin.register(Ready_cakes)
+class Ready_cakesAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = (

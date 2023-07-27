@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Каталог торгов{% endblock %}
+{% block content %}
+<article class="row pt-header d-flex justify-content-center" id="step2">
+        <h2 class="font_Gogh fs_40 cake_blue text-center mb-3">Каталог</h2>
+        {% for cake in cakes %}
+        <div class="col-12 col-sm-6 col-lg-4 d-flex flex-column align-items-center">
+          <div class="card border-0 cake__hover">
+            <img src="{{ cake.photo.url }}" alt="" class="">
+            <h5 class="cake_blue mt-4 fw-lighter mb-4 text-center">{{ cake.title }}</h5>
+            <p class="cake_blue mt-4 fw-lighter mb-4 text-center">Цена: {{ cake.price }}р.</p>
+            <div class="d-flex justify-content-center mt-2">
+          <form action="{% url 'catalog' %}">
+          <button class="btn text-white rounded-pill shadow-none cake__button cake__bg_pink">Купить</button>
+            </form>
+        </div>
+          </div>
+        </div>
+        {% endfor %}
+</article>
+{% endblock %}

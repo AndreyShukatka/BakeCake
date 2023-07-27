@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from .models import User
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 
 
 class LoginForm(forms.ModelForm):
@@ -36,3 +37,16 @@ class UserRegistrationForm(forms.ModelForm):
         model = get_user_model()
         fields = ('email',)
 
+
+class UserProfileForm(UserChangeForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={'v-model': "Name", 'type': "text", 'name': "name_format", 'id': "name", ':readonly':"!Edit", 'class': "form-control my-2 i cake__textinput"}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'v-model': "Phone", 'type': "text", 'name': "phone_format", 'id':"phone", ':readonly':"!Edit", 'class': "form-control my-2 cake__textinput"}))
+    phone = forms.CharField(widget=forms.TextInput(attrs={'v-model': "Email", 'type': "text", 'name': "email_format", 'id':"email", ':readonly':"!Edit", 'class': "form-control my-2 cake__textinput"}))
+
+    class Meta:
+        model = User
+        fields = (
+            'username',
+            'phone',
+            'email'
+        )
