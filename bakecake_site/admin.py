@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (
-    Level, Form, Topping, Berries, Decor, Order, User, Ready_cakes
+    Level, Form, Topping, Berries, Decor, Order, User, Ready_cakes, Bitly_statistic
 )
 
 
@@ -8,6 +8,9 @@ from .models import (
 class Ready_cakesAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(Bitly_statistic)
+class Bitly_statisticAdmin(admin.ModelAdmin):
+    pass
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):

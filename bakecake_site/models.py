@@ -128,3 +128,10 @@ class Ready_cakes(models.Model):
     index_page = models.BooleanField(verbose_name='Показывать на главной странице')
     def __str__(self):
         return self.title
+
+class Bitly_statistic(models.Model):
+    telegramm_name = models.CharField(max_length=200, verbose_name='Наименование канала')
+    url = models.TextField(verbose_name='Ссылка', blank=True, null=True)
+    number_transitions = models.IntegerField(verbose_name='Количество переходов', blank=True, null=True)
+    def __str__(self):
+        return self.telegramm_name
