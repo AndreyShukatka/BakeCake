@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="https://bootstraptema.ru/plugins/2015/b-v3-3-6/bootstrap.min.css" />
+<script type="text/javascript" src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://bootstraptema.ru/plugins/2015/b-v3-3-6/bootstrap.min.js"></script>
+
+
+<style>
+body{background:rgb(165,132,202)}
+</style>
+
+<div class="container"><div class="row">
+<div class="col-lg-6 col-lg-offset-3 well">
+
+<div class="progress" id="barbox">Введите название телеграмм канала
+ <div id="bar" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+ aria-valuenow="0" aria-valuemin="0" aria-valuemax="156">
+<span id="count">156</span>
+ </div>
+</div>
+  <form method="post" "> {% csrf_token %}
+    <input id="contentbox" class="form-control" name="chanel_name"/>
+    <button type="submit" class="btn btn-primary">Отправить</button>
+  </form>
+</div>
+</div></div>
