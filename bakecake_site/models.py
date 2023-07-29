@@ -59,6 +59,10 @@ class Level(models.Model):
     title = models.CharField(max_length=200, verbose_name='Уровень')
     price = models.FloatField(default=0, verbose_name='Цена')
 
+    class Meta:
+        verbose_name = 'Уровень'
+        verbose_name_plural = 'Уровни'
+
     def __str__(self):
         return self.title
 
@@ -66,6 +70,10 @@ class Level(models.Model):
 class Form(models.Model):
     title = models.CharField(max_length=200, verbose_name='Формы')
     price = models.FloatField(default=0, verbose_name='Цена')
+
+    class Meta:
+        verbose_name = 'Форма'
+        verbose_name_plural = 'Формы'
 
     def __str__(self):
         return self.title
@@ -78,6 +86,9 @@ class Topping(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = 'Топпинг'
+        verbose_name_plural = 'Топпинги'
 
 class Berries(models.Model):
     title = models.CharField(max_length=200, verbose_name='Ягоды')
@@ -86,6 +97,9 @@ class Berries(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = 'Ягода'
+        verbose_name_plural = 'Ягоды'
 
 class Decor(models.Model):
     title = models.CharField(max_length=200, verbose_name='Декор')
@@ -94,6 +108,9 @@ class Decor(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = 'Декоры'
+        verbose_name_plural = 'Декор'
 
 class Order(models.Model):
     STATUSES = [
@@ -125,6 +142,9 @@ class Order(models.Model):
     def __str__(self) -> str:
         return f'Заказ №{self.id} {self.inscription}'
 
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
 
 class Ready_cakes(models.Model):
     title = models.CharField(max_length=200, verbose_name='Название торта')
@@ -133,5 +153,21 @@ class Ready_cakes(models.Model):
     photo = models.ImageField(verbose_name='Фото')
     index_page = models.BooleanField(verbose_name='Показывать на главной странице')
 
+
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = 'Готовые торты'
+        verbose_name_plural = 'Готовый торт'
+class Bitly_statistic(models.Model):
+    telegramm_name = models.CharField(max_length=200, verbose_name='Наименование канала')
+    url = models.URLField(verbose_name='Ссылка', blank=True, null=True)
+    number_transitions = models.IntegerField(verbose_name='Количество переходов', blank=True, null=True)
+
+    def __str__(self):
+        return self.telegramm_name
+
+    class Meta:
+        verbose_name = 'Ссылки на Bitly'
+        verbose_name_plural = 'Ссылка на Bitly'
