@@ -54,6 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.username
 
+
 class Level(models.Model):
     title = models.CharField(max_length=200, verbose_name='Уровень')
     price = models.FloatField(default=0, verbose_name='Цена')
@@ -102,7 +103,7 @@ class Order(models.Model):
         ('4', 'Передан в доставку'),
         ('5', 'Завершен'),
     ]
-    user = models.ForeignKey(User, verbose_name='Заказчик', on_delete=models.CASCADE, related_name='order')
+    user = models.ForeignKey(User, verbose_name='Заказчик', on_delete=models.CASCADE, related_name='orders')
     level = models.ForeignKey(Level, verbose_name='Уровень', on_delete=models.CASCADE)
     form = models.ForeignKey(Form, verbose_name='Форма', on_delete=models.CASCADE)
     topping = models.ForeignKey(Topping, verbose_name='Топпинги', on_delete=models.CASCADE)
@@ -118,6 +119,11 @@ class Order(models.Model):
         choices=STATUSES,
         default='1',
     )
+    order_comment = models.TextField('Комментарий к заказу', max_length=200, default='', blank=True)
+    delivery_comment = models.TextField('Комментарий для курьера', max_length=200, default='', blank=True)
+
+    def __str__(self) -> str:
+        return f'Заказ №{self.id} {self.inscription}'
 
 
 class Ready_cakes(models.Model):
@@ -126,5 +132,6 @@ class Ready_cakes(models.Model):
     price = models.FloatField(default=0, verbose_name='Цена')
     photo = models.ImageField(verbose_name='Фото')
     index_page = models.BooleanField(verbose_name='Показывать на главной странице')
+
     def __str__(self):
         return self.title
