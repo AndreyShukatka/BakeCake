@@ -98,7 +98,7 @@ class BitlyPage(View):
         return render(request, self.template_name)
 
     def post(self, request):
-        url = settings.URL_FOR_BITLY
+        url = f'{settings.URL_FOR_BITLY}#{request.POST["chanel_name"]}'
         token = settings.BITLY_TOKEN
         body = {'long_url': url}
         headers = {'Authorization': f'Bearer {token}'}
@@ -109,7 +109,7 @@ class BitlyPage(View):
             json=body
         )
         response.raise_for_status()
-        bitlink = response.json()['id']
+        bitlink = response.json()['link']
         Bitly_statistic.objects.create(telegramm_name=request.POST['chanel_name'], url=bitlink)
         return redirect(reverse('admin:index'))
 
@@ -136,4 +136,4 @@ class BitlyUpdatePage(View):
             chanel = Bitly_statistic.objects.get(telegramm_name=telegramm_name)
             chanel.number_transitions = clicks_count
             chanel.save()
-            return redirect(reverse('admin:index'))
+        return redirect(reverse('admin:index'))
