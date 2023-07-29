@@ -7,9 +7,9 @@ Vue.createApp({
     data() {
         return {
             Edit: false,
-            Name: '',
-            Phone: '',
-            Email: '',
+            Name: userName,
+            Phone: userPhone,
+            Email: userEmail,
             Schema: {
                 name_format: (value) => {
                     const regex = /^[a-zA-Zа-яА-я]+$/

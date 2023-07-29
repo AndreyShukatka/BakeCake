@@ -15,7 +15,8 @@
             <div class="modal-header border-0 py-0">
               <label for="reg" class="modal-title font_Gogh fs_40 cake_blue" id="RegModalLabel">Вход / Регистрация</label>
             </div>
-            <form class="d-none" method="post">{% csrf_token %}
+            <form class="d-none" method="post">
+              {% csrf_token %}
               <input v-model="EnteredNumber" type="text" name="email">
               <input v-model="RegInput" type="text" name="password">
               <button type="submit" ref="HiddenFormSubmitReg" value="login">reg</button>
@@ -183,66 +184,36 @@
         </section>
 
         <section class="row pt-header" id="step4" v-if="Designed">
-          <form class="d-none">
+          <form class="d-none" method="post">
+            {% csrf_token %}
+
+            {% for level in levels %}
             <label>
-              <input v-model="Levels" value="1" type="radio" name="LEVELS">
+              <input v-model="Levels" value="{{ level }}" type="radio" name="LEVELS">
             </label>
-            <label>
-              <input v-model="Levels" value="2" type="radio" name="LEVELS">
-            </label>
-            <label>
-              <input v-model="Levels" value="3" type="radio" name="LEVELS">
-            </label>
+            {% endfor %}
             <br>
+            {% for form in forms %}
             <label>
-              <input v-model="Form" value="1" type="radio" name="FORM">
+              <input v-model="Form" value="{{ form }}" type="radio" name="FORM">
             </label>
-            <label>
-              <input v-model="Form" value="2" type="radio" name="FORM">
-            </label>
-            <label>
-              <input v-model="Form" value="3" type="radio" name="FORM">
-            </label>
+            {% endfor %}
             <br>
+            {% for topping in toppings %}
             <label>
-              <input v-model="Topping" value="1" type="radio" name="TOPPING">
+              <input v-model="Topping" value="{{ topping }}" type="radio" name="TOPPING">
             </label>
-            <label>
-              <input v-model="Topping" value="2" type="radio" name="TOPPING">
-            </label>
-            <label>
-              <input v-model="Topping" value="3" type="radio" name="TOPPING">
-            </label>
-            <label>
-              <input v-model="Topping" value="4" type="radio" name="TOPPING">
-            </label>
-            <label>
-              <input v-model="Topping" value="5" type="radio" name="TOPPING">
-            </label>
-            <label>
-              <input v-model="Topping" value="6" type="radio" name="TOPPING">
-            </label>
-            <label>
-              <input v-model="Topping" value="7" type="radio" name="TOPPING">
-            </label>
+            {% endfor %}
             <br>
+            {% for berry in berries %}
             <label>
-              <input v-model="Berries" value="1" type="radio" name="BERRIES">
+              <input v-model="Berries" value="{{ berry }}" type="radio" name="BERRIES">
             </label>
-            <label>
-              <input v-model="Berries" value="2" type="radio" name="BERRIES">
-            </label>
-            <label>
-              <input v-model="Berries" value="3" type="radio" name="BERRIES">
-            </label>
-            <input v-model="Berries" value="4" type="radio" name="BERRIES">
+            {% endfor %}
             <br>
-            <input v-model="Decor" value="1" type="radio" name="DECOR">
-            <input v-model="Decor" value="2" type="radio" name="DECOR">
-            <input v-model="Decor" value="3" type="radio" name="DECOR">
-            <input v-model="Decor" value="4" type="radio" name="DECOR">
-            <input v-model="Decor" value="5" type="radio" name="DECOR">
-            <input v-model="Decor" value="6" type="radio" name="DECOR">
+            {% for decor in decors %}
+            <input v-model="Decor" value="{{ decor }}" type="radio" name="DECOR">
+            {% endfor %}
             <br>
             <input v-model="Words" type="text" name="WORDS">
             <input v-model="Comments" type="text" name="COMMENTS">
@@ -256,7 +227,9 @@
             <input v-model="DelivComments" type="text" name="DELIVCOMMENTS">
             <button type="submit" ref="HiddenFormSubmit">Submit Order</button>
           </form>
-          <v-form :validation-schema="schema2" @submit="this.$refs.HiddenFormSubmit.click()">
+
+          <v-form :validation-schema="schema2" @submit="this.$refs.HiddenFormSubmit.click()" method="post">
+            {% csrf_token %}
             <div class="col">
               <div class="d-flex flex-column position-relative pb-5">
                 <h2 class="fs_40 font_Gogh cake_blue text-center align-self-center">Оформление заказа</h2>
@@ -279,8 +252,10 @@
                     <error-message name="name_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
                   </div>
                   <div class="position-relative pb-1">
-                    <v-field v-model="Phone" :class="Phone ? 'cake__border_blue': ''" type="tel" name="phone" id="phone" placeholder="Введите Email" class="form-control my-3 cake__textinput"></v-field>
-                    <v-field v-model="Phone" type="phone" name="phone_format" class="d-none"></v-field>
+                    <v-field v-model="Phone" :class="Phone ? 'cake__border_blue': ''" type="tel" name="phone" id="phone"
+                      placeholder="Введите телефон" class="form-control my-3 cake__textinput">
+                    </v-field>
+                    <v-field v-model="Phone" type="phone" name="phone_format" class="d-none">  </v-field>
                     <error-message name="phone_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
                   </div>
                   <div class="position-relative pb-1">
@@ -292,7 +267,7 @@
                 <div class="col-12 col-lg-4 d-flex justify-content-center justify-content-lg-end">
                   <div class="cake__card p-4 position-relative cake_grey">
                     <span class="cake__badge rounded-pill">?</span>
-                    <span>Количество уровней: {% verbatim %}{{ DATA.Levels[Levels] }}{% endverbatim %}</span>
+                    <!-- <span>Количество уровней: {% verbatim %}{{ DATA.Levels[Levels] }}{% endverbatim %}</span> -->
                     <span>Форма уровней: {% verbatim %}{{ DATA.Forms[Form] }}{% endverbatim %}</span>
                     <p>Топинг: {% verbatim %}{{ DATA.Toppings[Topping] }}{% endverbatim %}  </p>
                     <span>Дополнительно:</span>

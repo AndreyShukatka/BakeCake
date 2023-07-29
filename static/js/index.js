@@ -1,3 +1,7 @@
+const userName = JSON.parse(document.getElementById('username').textContent);
+const userPhone = JSON.parse(document.getElementById('user_phone').textContent);
+const userEmail = JSON.parse(document.getElementById('user_email').textContent);
+
 Vue.createApp({
     name: "App",
     components: {
@@ -122,9 +126,9 @@ Vue.createApp({
             Comments: '',
             Designed: false,
 
-            Name: '',
-            Phone: null,
-            Email: null,
+            Name: userName,
+            Phone: userPhone,
+            Email: userEmail,
             Address: null,
             Dates: null,
             Time: null,
