@@ -115,8 +115,8 @@ class BitlyPage(View):
 
 
 class BitlyUpdatePage(View):
+    template_name = 'bitly_update.html'
     def get(self, request):
-        template_name = 'bitly_update.html'
         token = settings.BITLY_TOKEN
         headers = {'Authorization': f'Bearer {token}'}
         param = {'units': -1}
@@ -137,3 +137,13 @@ class BitlyUpdatePage(View):
             chanel.number_transitions = clicks_count
             chanel.save()
         return redirect(reverse('admin:index'))
+
+
+class PaymentPage(View):
+    template_name = 'payment.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        return render(request, self.template_name)
