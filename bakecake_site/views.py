@@ -85,17 +85,10 @@ class LkPage(View):
         user.email = request.POST.get('EMAIL')
         user.phone = request.POST.get('PHONE')
         user.save()
-        print()
-        print("VIEW POST")
-        print(request.POST.get('NAME'))
-        print(request.POST.get('PHONE'))
-        print(request.POST.get('EMAIL'))
-        print(request.POST)
-        print()
         return redirect('lk')
 
     def get(self, request, *args, **kwargs):
-        user = User.objects.get(pk=2) # TODO
+        user = User.objects.get(id=request.user.id)  # TODO
         context = {
             'orders': user.orders.all()
         }
