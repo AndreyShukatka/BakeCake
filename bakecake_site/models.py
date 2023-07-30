@@ -37,7 +37,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField('Имя', max_length=250, default='some_user', blank=True)
+    username = models.CharField('Имя', max_length=250, default='User', blank=True)
     email = models.EmailField('Адрес электронной почты', max_length=50, unique=True)
     phone = models.CharField('Телефон', max_length=20, blank=True)
     is_staff = models.BooleanField('Является сотрудником', default=False)

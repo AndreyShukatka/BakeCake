@@ -19,6 +19,7 @@
               {% csrf_token %}
               <input v-model="EnteredNumber" type="text" name="email">
               <input v-model="RegInput" type="text" name="password">
+              <input v-model="RegInput" type="hidden" name="login" value="yes">
               <button type="submit" ref="HiddenFormSubmitReg" value="login">reg</button>
             </form>
             <v-form :validation-schema="RegSchema" class="modal-body position-relative d-flex flex-column align-items-center px-5 pb-4" @submit="RegSubmit">
@@ -184,7 +185,7 @@
         </section>
 
         <section class="row pt-header" id="step4" v-if="Designed">
-          <form class="d-none" method="post">
+          <form class="d-none" method="post" name="buy">
             {% csrf_token %}
 
             {% for level in levels %}
@@ -217,7 +218,7 @@
             <br>
             <input v-model="Words" type="text" name="WORDS">
             <input v-model="Comments" type="text" name="COMMENTS">
-
+            <input type="hidden" name="buy" value="yes">
             <input v-model="Name" type="text" name="NAME">
             <input v-model="Phone" type="tel" name="PHONE">
             <input v-model="Email" type="email" name="EMAIL">

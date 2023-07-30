@@ -29,39 +29,39 @@ class IndexPage(View):
         return context
 
     def post(self, request, *args, **kwargs):
+        print(request.POST)
         email = request.POST.get('email')
         password = request.POST.get('password')
-
-        if User.objects.filter(email=email):
-            user = authenticate(email=email, password=password)
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-        else:
-            user_registration_form = UserRegistrationForm(request.POST)
-            if user_registration_form.is_valid():
-                new_user = user_registration_form.save(commit=False)
-                new_user.set_password(user_registration_form.cleaned_data['password'])
-                new_user.save()
-                email = request.POST.get('email')
-                password = request.POST.get('password')
+        if request.POST.get('login'):
+            if User.objects.filter(email=email):
                 user = authenticate(email=email, password=password)
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                return redirect('index')
-
-        print(request.POST)
-        Order.objects.create(
-            user=User.objects.get(email=request.POST.get('EMAIL')),
-            level=Level.objects.get(title=request.POST.get('LEVELS')),
-            form=Form.objects.get(title=request.POST.get('FORM')),
-            topping=Topping.objects.get(title=request.POST.get('TOPPING')),
-            berries=Berries.objects.get(title=request.POST.get('BERRIES')),
-            decor=Decor.objects.get(title=request.POST.get('DECOR')),
-            inscription=request.POST.get('WORDS'),
-            address=request.POST.get('ADDRESS'),
-            date=request.POST.get('DATE'),
-            time=request.POST.get('TIME'),
-            order_comment=request.POST.get('COMMENTS'),
-            delivery_comment=request.POST.get('DELIVCOMMENTS'),
-        )
+            else:
+                user_registration_form = UserRegistrationForm(request.POST)
+                if user_registration_form.is_valid():
+                    new_user = user_registration_form.save(commit=False)
+                    new_user.set_password(user_registration_form.cleaned_data['password'])
+                    new_user.save()
+                    email = request.POST.get('email')
+                    password = request.POST.get('password')
+                    user = authenticate(email=email, password=password)
+                    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                    return redirect('index')
+        else:
+            Order.objects.create(
+                user=User.objects.get(email=request.POST.get('EMAIL')),
+                level=Level.objects.get(title=request.POST.get('LEVELS')),
+                form=Form.objects.get(title=request.POST.get('FORM')),
+                topping=Topping.objects.get(title=request.POST.get('TOPPING')),
+                berries=Berries.objects.get(title=request.POST.get('BERRIES')),
+                decor=Decor.objects.get(title=request.POST.get('DECOR')),
+                inscription=request.POST.get('WORDS'),
+                address=request.POST.get('ADDRESS'),
+                date=request.POST.get('DATE'),
+                time=request.POST.get('TIME'),
+                order_comment=request.POST.get('COMMENTS'),
+                delivery_comment=request.POST.get('DELIVCOMMENTS'),
+            )
 
         context = self.get_context_data()
         return render(request, self.template_name, context)
