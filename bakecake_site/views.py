@@ -29,7 +29,6 @@ class IndexPage(View):
         return context
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
         email = request.POST.get('email')
         password = request.POST.get('password')
         if request.POST.get('login'):
@@ -48,14 +47,28 @@ class IndexPage(View):
                     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                     return redirect('index')
         else:
+            level = Level.objects.get(title=request.POST.get('LEVELS'))
+            form = Form.objects.get(title=request.POST.get('FORM'))
+            topping = Topping.objects.get(title=request.POST.get('TOPPING'))
+            berries = Berries.objects.get(title=request.POST.get('BERRIES'))
+            decor = Decor.objects.get(title=request.POST.get('DECOR'))
+            inscription = request.POST.get('WORDS')
+            if inscription:
+                print(inscription)
+                order_coast = level.price + form.price + topping.price + berries.price + decor.price + 200.00
+            else:
+                print(inscription)
+                order_coast = level.price + form.price + topping.price + berries.price + decor.price
+            print(order_coast)
             Order.objects.create(
                 user=User.objects.get(email=request.POST.get('EMAIL')),
-                level=Level.objects.get(title=request.POST.get('LEVELS')),
-                form=Form.objects.get(title=request.POST.get('FORM')),
-                topping=Topping.objects.get(title=request.POST.get('TOPPING')),
-                berries=Berries.objects.get(title=request.POST.get('BERRIES')),
-                decor=Decor.objects.get(title=request.POST.get('DECOR')),
-                inscription=request.POST.get('WORDS'),
+                level=level,
+                form=form,
+                topping=topping,
+                berries=berries,
+                decor=decor,
+                inscription=inscription,
+                total_price=order_coast,
                 address=request.POST.get('ADDRESS'),
                 date=request.POST.get('DATE'),
                 time=request.POST.get('TIME'),
@@ -88,9 +101,8 @@ class LkPage(View):
         return redirect('lk')
 
     def get(self, request, *args, **kwargs):
-        user = User.objects.get(id=request.user.id)  # TODO
         context = {
-            'orders': user.orders.all()
+            'orders': Order.objects.filter(user=request.user.id)
         }
         return render(request, self.template_name, context=context)
 

@@ -127,6 +127,7 @@ class Order(models.Model):
     berries = models.ForeignKey(Berries, verbose_name='Ягоды', on_delete=models.CASCADE, blank=True, null=True)
     decor = models.ForeignKey(Decor, verbose_name='Декор', on_delete=models.CASCADE, blank=True, null=True)
     inscription = models.CharField(max_length=200, verbose_name='Надпись', blank=True, null=True)
+    total_price = models.FloatField(verbose_name='Стоимость заказа', default=0)
     address = models.CharField('Адрес', max_length=150, blank=True, null=True)
     date = models.DateField('Дата доставки')
     time = models.TimeField('Время доставки')
@@ -140,7 +141,7 @@ class Order(models.Model):
     delivery_comment = models.TextField('Комментарий для курьера', max_length=200, default='', blank=True)
 
     def __str__(self) -> str:
-        return f'Заказ №{self.id} {self.inscription}'
+        return f'Заказ №{self.id}'
 
     class Meta:
         verbose_name = 'Заказ'
