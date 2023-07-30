@@ -116,6 +116,7 @@
       </div>
     </div>
   </div>
+  <form method="post">{% csrf_token %}
   <div class="form-container">
     <div class="field-container">
       <label for="name">Имя</label>
@@ -123,21 +124,24 @@
     </div>
     <div class="field-container">
       <label for="cardnumber">Номер карты</label><span id="generatecard">generate random</span>
-      <input id="cardnumber" type="text" pattern="[0-9]*" inputmode="numeric">
+      <input id="cardnumber" type="text" inputmode="numeric">
       <svg id="ccicon" class="ccicon" width="750" height="471" viewBox="0 0 750 471" version="1.1"
         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
       </svg>
     </div>
+    Оплата заказа №{{ number }} на сумму {{ order_coast }}
     <div class="field-container">
       <label for="expirationdate">Срок годности (mm/yy)</label>
-      <input id="expirationdate" type="text" pattern="[0-9]*" inputmode="numeric">
+      <input id="expirationdate" type="text" inputmode="numeric">
     </div>
     <div class="field-container">
       <label for="securitycode">Код безопасности</label>
-      <input id="securitycode" type="text" pattern="[0-9]*" inputmode="numeric">
+      <input id="securitycode" type="text" inputmode="numeric">
     </div>
   </div>
+    <button type="submit">Отправить</button>
+  </form>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/imask/3.4.0/imask.min.js"></script>
   <script src="{% static 'js/payment.js' %}"></script>

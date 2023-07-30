@@ -8,9 +8,10 @@ from django.contrib.auth.views import LogoutView
 from django.urls import reverse, reverse_lazy
 import os
 import requests
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urlencode
 from django.conf import settings
-
+from yookassa import Configuration, Payment
+import var_dump as var_dump
 
 
 class IndexPage(View):
@@ -54,12 +55,9 @@ class IndexPage(View):
             decor = Decor.objects.get(title=request.POST.get('DECOR'))
             inscription = request.POST.get('WORDS')
             if inscription:
-                print(inscription)
                 order_coast = level.price + form.price + topping.price + berries.price + decor.price + 200.00
             else:
-                print(inscription)
                 order_coast = level.price + form.price + topping.price + berries.price + decor.price
-            print(order_coast)
             Order.objects.create(
                 user=User.objects.get(email=request.POST.get('EMAIL')),
                 level=level,
@@ -70,11 +68,15 @@ class IndexPage(View):
                 inscription=inscription,
                 total_price=order_coast,
                 address=request.POST.get('ADDRESS'),
-                date=request.POST.get('DATE'),
+                date=request.POST.get('DATE'  ),
                 time=request.POST.get('TIME'),
                 order_comment=request.POST.get('COMMENTS'),
                 delivery_comment=request.POST.get('DELIVCOMMENTS'),
             )
+            last_order = Order.objects.filter(user=request.user.id).order_by('-id').latest('id')
+            payment_id, payment_url = create_payment(order_coast, last_order)
+            print(payment_id, payment_url)
+            return redirect(payment_url)
 
         context = self.get_context_data()
         return render(request, self.template_name, context)
@@ -166,11 +168,23 @@ class BitlyUpdatePage(View):
         return redirect(reverse('admin:index'))
 
 
-class PaymentPage(View):
-    template_name = 'payment.html'
-
-    def get(self, request):
-        return render(request, self.template_name)
-
-    def post(self, request):
-        return render(request, self.template_name)
+def create_payment(order_coast, last_order):
+    Configuration.configure(settings.YOOKASSA_SHOPID,settings.YOOKASSA_TOKEN)
+    payment = Payment.create(
+        {
+            "amount": {
+                "value": str(order_coast),
+                "currency": "RUB"
+            },
+            "payment_method_data": {
+                "type": "bank_card"
+            },
+            "confirmation": {
+                "type": "redirect",
+                "return_url": settings.YOOKASSA_RETURN_URL
+            },
+            "capture": True,
+            "description": f"Оплата: торт на заказ,{last_order}"
+        }
+    )
+    return payment.id, payment.confirmation.confirmation_url

@@ -10,6 +10,5 @@ urlpatterns = [
     path('catalog', views.CatalogPage.as_view(), name='catalog'),
     path('bitly', views.BitlyPage.as_view(), name='bitly'),
     path('bitly_update', views.BitlyUpdatePage.as_view(), name='bitly_update'),
-    path('payment', views.PaymentPage.as_view())
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
