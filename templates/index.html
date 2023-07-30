@@ -154,15 +154,19 @@
             <div class="d-flex align-items-center flex-wrap mb-3">
               <span class="me-3 fs_40 cake_blue">Ягоды</span>
               {% for berrie in berries %}
+                {% if berrie.title != 'Нет' %}
               <v-field v-model="Berries" type="radio" name="berries" id="{{ berrie.title }}{{ berrie.id }}" value="{{ berrie.title }}" class="d-none cake__input"></v-field>
               <label for="{{ berrie.title }}{{ berrie.id }}" class="mx-2 px-3 py-1 cake_grey cake__label">{{ berrie.title }}</label>
+                {% endif %}
               {% endfor %}
             </div>
             <div class="d-flex align-items-center flex-wrap mb-3">
               <span class="me-3 fs_40 cake_blue">Декор</span>
               {% for decor in decors %}
+                {% if decor.title != 'Нет' %}
               <v-field v-model="Decor" type="radio" name="decor" id="{{ decor.title }}{{ decor.id }}" value="{{ decor.title }}" class="d-none cake__input"></v-field>
               <label for="{{ decor.title }}{{ decor.id }}" class="mx-2 px-3 py-1 cake_grey cake__label">{{ decor.title }}</label>
+                {% endif %}
               {% endfor %}
             </div>
             <div class="row mb-3">

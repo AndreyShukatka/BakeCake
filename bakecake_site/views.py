@@ -51,9 +51,9 @@ class IndexPage(View):
             level = Level.objects.get(title=request.POST.get('LEVELS'))
             form = Form.objects.get(title=request.POST.get('FORM'))
             topping = Topping.objects.get(title=request.POST.get('TOPPING'))
-            berries = Berries.objects.get(title=request.POST.get('BERRIES'))
-            decor = Decor.objects.get(title=request.POST.get('DECOR'))
-            inscription = request.POST.get('WORDS')
+            berries = Berries.objects.get(title=request.POST.get('BERRIES', default='Нет'))
+            decor = Decor.objects.get(title=request.POST.get('DECOR', default='Нет'))
+            inscription = request.POST.get('WORDS', default="Нет")
             if inscription:
                 order_coast = level.price + form.price + topping.price + berries.price + decor.price + 200.00
             else:
