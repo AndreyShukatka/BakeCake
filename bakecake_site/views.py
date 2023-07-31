@@ -1,17 +1,17 @@
-from .models import Level, Form, Topping, Berries, Decor, Ready_cakes, Order, Order_Ready_cakes
-from django.views import View
-from .forms import UserRegistrationForm, UserProfileForm
-from django.contrib.auth import authenticate, login
-from .models import User, Bitly_statistic
-from django.shortcuts import render, redirect
-from django.contrib.auth.views import LogoutView
-from django.urls import reverse, reverse_lazy
-import os
+from urllib.parse import urlparse
+
 import requests
-from urllib.parse import urlparse, urlencode
 from django.conf import settings
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import LogoutView
+from django.shortcuts import render, redirect
+from django.urls import reverse, reverse_lazy
+from django.views import View
 from yookassa import Configuration, Payment
-import var_dump as var_dump
+
+from .forms import UserRegistrationForm
+from .models import Level, Form, Topping, Berries, Decor, Ready_cakes, Order, Order_Ready_cakes
+from .models import User, Bitly_statistic
 
 
 class IndexPage(View):
