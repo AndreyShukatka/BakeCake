@@ -1,4 +1,4 @@
-from .models import Level, Form, Topping, Berries, Decor, Ready_cakes, Order
+from .models import Level, Form, Topping, Berries, Decor, Ready_cakes, Order, Order_Ready_cakes
 from django.views import View
 from .forms import UserRegistrationForm, UserProfileForm
 from django.contrib.auth import authenticate, login
@@ -75,7 +75,6 @@ class IndexPage(View):
             )
             last_order = Order.objects.filter(user=request.user.id).order_by('-id').latest('id')
             payment_id, payment_url = create_payment(order_coast, last_order)
-            print(payment_id, payment_url)
             return redirect(payment_url)
 
         context = self.get_context_data()
@@ -104,21 +103,33 @@ class LkPage(View):
 
     def get(self, request, *args, **kwargs):
         context = {
-            'orders': Order.objects.filter(user=request.user.id)
+            'orders': Order.objects.filter(user=request.user.id),
+            'order_ready_cake': Order_Ready_cakes.objects.filter(user=request.user.id)
+
         }
         return render(request, self.template_name, context=context)
 
 
 class CatalogPage(View):
     template_name = 'catalog.html'
+    all_ready_cakes = Ready_cakes.objects.all()
+    content = {'cakes': all_ready_cakes}
 
     def get(self, request, *args, **kwargs):
-        all_ready_cakes = Ready_cakes.objects.all()
-        for a in all_ready_cakes:
-            print(a.index_page)
-        content = {'cakes': all_ready_cakes}
-        return render(request, self.template_name, content)
+        return render(request, self.template_name, self.content)
 
+    def post(self, request):
+        ready_cake = Ready_cakes.objects.get(id=request.POST.get('id'))
+        price = ready_cake.price
+        Order_Ready_cakes.objects.create(
+            user=User.objects.get(id=request.user.id),
+            ready_cake=ready_cake,
+            price=price
+        )
+        last_order = Order.objects.filter(user=request.user.id).order_by('-id').latest('id')
+        payment_id, payment_url = create_payment(order_coast=price, last_order=last_order)
+        print(payment_id)
+        return redirect(payment_url)
 
 class BitlyPage(View):
     template_name = 'bitly.html'

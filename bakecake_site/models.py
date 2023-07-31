@@ -172,3 +172,34 @@ class Bitly_statistic(models.Model):
     class Meta:
         verbose_name = 'Ссылки на Bitly'
         verbose_name_plural = 'Ссылка на Bitly'
+
+
+class Order_Ready_cakes(models.Model):
+    STATUSES = [
+        ('1', 'Ожидает оплаты'),
+        ('2', 'Принят к обработке'),
+        ('3', 'Готовится'),
+        ('4', 'Передан в доставку'),
+        ('5', 'Завершен'),
+    ]
+    user = models.ForeignKey(User, verbose_name='Заказчик', on_delete=models.CASCADE, related_name='orders_ready_cakes')
+    ready_cake = models.ForeignKey(Ready_cakes, verbose_name='Торт', on_delete=models.CASCADE)
+    price = models.FloatField(default=0, verbose_name='Цена')
+    address = models.CharField('Адрес', max_length=150, blank=True, null=True, default=0)
+    date = models.DateField('Дата доставки', blank=True, null=True,)
+    time = models.TimeField('Время доставки', blank=True, null=True,)
+    status = models.CharField(
+        'Статус заказа',
+        max_length=20,
+        choices=STATUSES,
+        default='1',
+    )
+    order_comment = models.TextField('Комментарий к заказу', max_length=200, default='', blank=True)
+    delivery_comment = models.TextField('Комментарий для курьера', max_length=200, default='', blank=True)
+
+    class Meta:
+        verbose_name = 'Заказ готового торта'
+        verbose_name_plural = 'Заказ готового торта'
+
+    def __str__(self) -> str:
+        return f'Заказ готового торта №{self.id}'

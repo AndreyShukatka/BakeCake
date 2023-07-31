@@ -11,7 +11,10 @@
             <h5 class="cake_blue mt-4 fw-lighter mb-4 text-center">{{ cake.title }}</h5>
             <p class="cake_blue mt-4 fw-lighter mb-4 text-center">Цена: {{ cake.price }}р.</p>
             <div class="d-flex justify-content-center mt-2">
-          <form action="{% url 'catalog' %}">
+          <form method="post">{% csrf_token %}
+            <input type="hidden" name="id" value="{{ cake.id }}">
+            <input type="hidden" name="price" value="{{ cake.price }}"">
+            <input type="hidden" name="title" value="{{ cake.title }}">
           <button class="btn text-white rounded-pill shadow-none cake__button cake__bg_pink">Купить</button>
             </form>
         </div>

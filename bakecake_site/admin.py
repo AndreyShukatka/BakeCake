@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (
-    Level, Form, Topping, Berries, Decor, Order, User, Ready_cakes, Bitly_statistic
+    Level, Form, Topping, Berries, Decor, Order, User, Ready_cakes, Bitly_statistic, Order_Ready_cakes
 )
 
 
@@ -74,4 +74,12 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = (
         'user',
         'address',
+    )
+
+
+@admin.register(Order_Ready_cakes)
+class OrderReadycakesAdmin(admin.ModelAdmin):
+    list_display = (
+        'user',
+        'ready_cake',
     )
